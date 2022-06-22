@@ -1,3 +1,6 @@
-## Gravity 1.0
+## Gravity
 
-made to simplify assigning specific members to different locations randomly.
+Made to simplify assigning specific members to different locations randomly.
+
+**Why is it named Gravity?**  
+Well, it felt like this whole scheduling thing for the summer is the "glue" to hold everything together...
