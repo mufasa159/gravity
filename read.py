@@ -129,8 +129,9 @@ def daily_active(filename_count: str, all_worksites: list[Worksite], all_schools
                             mf_onsite += mf_remote
                             mf_remote = mf_active - mf_onsite
 
-                        result.append(DailyActive(day, places_per_day, mf_active, mf_onsite, mf_remote))
+                        result.append(DailyActive(day, places_per_day, MFCount(mf_active, mf_onsite, mf_remote)))
                         del worksite_active[:]
+
                     except:
                         print("Invalid data : read.daily_active()")
                         exit(1)
