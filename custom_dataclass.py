@@ -25,8 +25,6 @@ class Worksite:
 class DailyActive:
     day: int
     workplace: list[str]
-    mf_active: int
-    mf_onsite: int
-    mf_remote: int
+    placement: MFCount
 
 
