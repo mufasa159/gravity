@@ -8,7 +8,8 @@ Well, it felt like this whole scheduling thing for the summer is the "glue" to h
 ---
 
 ### Data
-All necessary data for running the script is stored in the `./data` directory. Make sure the format matches when adding new information to any of the csv files.
+All necessary data for running the script is stored in the `./data` directory. Make sure the format matches when adding new information to any of the csv files.  
+**Note:** Do not add duplicate names in the dataset unless you want chaos.
 
 | Filename | Description |  
 | -------- | ----------- |
@@ -23,3 +24,4 @@ All necessary data for running the script is stored in the `./data` directory. M
 - add occurrence counter
 - track budget if time permits
 - add a way to track the number of times a person is assigned to a location
+- include cycling method for in-person and remote mentors/facilitators
