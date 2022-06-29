@@ -6,6 +6,7 @@
 from custom_dataclass import *
 import random
 import read
+import write
 
 # read data from csv files
 mentors = read.people("./data/mentors.csv")
@@ -52,14 +53,21 @@ def generate_person(verification_list: list) -> Person:
     return user
 
 
+people_per_location_per_day_dict = {}   # stores people assignment for all days
+
 # main loop that assigns people to different locations
 for i in range(0, len(daily_data)):
-    print("\nDay " + str(daily_data[i].day))
-
     assigned = []
     people_per_location_dict = {}  # stores list of names per location
 
+    daily_active_mf_count = MFCount(
+        daily_data[i].placement.active,
+        daily_data[i].placement.onsite,
+        daily_data[i].placement.remote
+    )
+
     for each_location_index in range(0, len(daily_data[i].workplace)):
+        people_per_location_dict["Onsite_Remote"] = daily_active_mf_count
         if daily_data[i].workplace[each_location_index] != "Remote":
             temp = []
             for each_mf_capacity in range(0, worksite_dictionary[daily_data[i].workplace[each_location_index]]):
@@ -70,6 +78,7 @@ for i in range(0, len(daily_data)):
 
     # loop repeat separately so that mentors get more priority in being assigned in-person than facilitators
     for each_location_index in range(0, len(daily_data[i].workplace)):
+        people_per_location_dict["Onsite_Remote"] = daily_active_mf_count
         if daily_data[i].workplace[each_location_index] == "Remote":
             temp = []
             for each_mf_capacity in range(0, daily_data[i].placement.remote):
@@ -78,5 +87,15 @@ for i in range(0, len(daily_data)):
                 temp.append(to_be_assigned.name)
                 people_per_location_dict[daily_data[i].workplace[each_location_index]] = temp
 
-    for x in range(0, len(people_per_location_dict)):
-        print(str(daily_data[i].workplace[x]) + ": " + str(people_per_location_dict[daily_data[i].workplace[x]]))
+    people_per_location_per_day_dict["day_" + str(i+1)] = people_per_location_dict
+
+
+# prepare Excel spreadsheet with titles/headers etc. to make it look nice
+write.prepare_sheet(len(people_per_location_per_day_dict), worksite_list)
+
+# write location assignments to an Excel spreadsheet
+write.populate(people_per_location_per_day_dict)
+
+# the following prints out the final ready-to-use location assignments/data
+for x in range(1, len(people_per_location_per_day_dict)):
+    print("Day " + str(x+1) + ": " + str(people_per_location_per_day_dict["day_" + str(x+1)]))
